@@ -1,0 +1,41 @@
+﻿@page
+@model FinalProject.Pages.View.ManageProductModel
+@{
+    ViewData["Title"] = "Manage Products";
+}
+<h2>Manage Products</h2>
+<a asp-page="Create" class="btn btn-success">Thêm mới sản phẩm</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Product Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Information</th>
+            <th>Actions</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Category.CategoryName</td>
+                <td>@product.ProductName</td>
+                <td> <img class="card-img" src="@product.ImageUrl" alt="" style="width: 100px; height: auto;" /></td>
+                <td>@product.Price</td>
+                <td>@product.StockQuantity</td>
+                <td>Added by staff @product.UserId</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@product.ProductId" class="btn btn-primary">Sửa</a>
+                    <a asp-page="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

@@ -1,0 +1,107 @@
+﻿@page
+@model FinalProject.Pages.View.CategoryModel
+@{
+}
+<!--================ End Header Menu Area =================-->
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Shop Category</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!-- ================ category section start ================= -->
+<section class="section-margin--small mb-5">
+    <div class="container">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <div class="sidebar-filter">
+                    <div class="top-filter-head">Product Filters</div>
+                    <div class="common-filter">
+                        <div class="head">Brands</div>
+                        <form>
+                            <ul>
+                                @if (Model.Category != null && Model.Category.Any())
+                                {
+                                    @foreach (var c in Model.Category.Take(10))
+                                    {
+                                        <li class="filter-list">
+                                            <input class="pixel-radio"
+                                                   type="radio"
+                                                   name="categoryId"
+                                                   value="@c.CategoryId"
+                                                   id="category-@c.CategoryId"
+                                                   onchange="this.form.submit()"
+                                            @(Request.Query["categoryId"] == c.CategoryId.ToString() ? "checked" : "") />
+                                            <label for="category-@c.CategoryId">@c.CategoryName</label>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>No categories available</li>
+                                }
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <!-- Start Filter Bar -->
+                <form method="get">
+                    <div class="filter-bar d-flex flex-wrap align-items-center">
+                        <div>
+                            <div class="input-group filter-bar-search">
+                                <input type="text" name="searchTerm" placeholder="Search" value="@Model.searchString">
+                                <div class="input-group-append">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- End Filter Bar -->
+                <!-- Start Best Seller -->
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row">
+                        
+                            @foreach (var s in Model.Product)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="card text-center card-product">
+                                        <div class="card-product__img">
+                                            <img class="card-img" src="@s.ImageUrl" alt="">
+                                            <ul class="card-product__imgOverlay">
+                                                <li>
+                                                    <a href="/View/Category?id=@s.ProductId"><button><i class="ti-shopping-cart"></i></button></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>@s.ProductName</p>
+                                            <h4 class="card-product__title"><a href="#">@s.Category.CategoryName</a></h4>
+                                            <p class="card-product__price">@s.Price</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+</section>

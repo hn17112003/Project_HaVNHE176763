@@ -1,0 +1,53 @@
+﻿@page
+@model FinalProject.Pages.View.CreateModel
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3">Create Category</h2>
+            <hr />
+		</div>
+		<div asp-validation-summary="All"></div>
+		<div class="mb-3">
+			<label asp-for="Product.Category.CategoryName"></label>
+			<input asp-for="Product.Category.CategoryName" class="form-control" />
+			<span asp-validation-for="Product.Category.CategoryName" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.ProductName"></label>
+			<input asp-for="Product.ProductName" class="form-control" />
+			<span asp-validation-for="Product.ProductName" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.Description"></label>
+			<input asp-for="Product.Description" class="form-control" />
+			<span asp-validation-for="Product.Description" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.Price"></label>
+			<input asp-for="Product.Price" class="form-control" />
+			<span asp-validation-for="Product.Price" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.StockQuantity"></label>
+			<input asp-for="Product.StockQuantity" class="form-control" />
+			<span asp-validation-for="Product.StockQuantity" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.ImageUrl"></label>
+			<input asp-for="Product.ImageUrl" class="form-control" />
+			<span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+		<a asp-page="ManageProduct" class="btn btn-secondary" style="width:150px;"> Back to List</a>
+
+		
+       
+	</div>
+	
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial"/>
+	}
+}

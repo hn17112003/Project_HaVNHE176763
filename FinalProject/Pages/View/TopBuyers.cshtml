@@ -1,0 +1,29 @@
+﻿@page
+@model FinalProject.Pages.Reports.TopBuyersModel
+@{
+    ViewData["Title"] = "Top Buyers";
+}
+
+<h2>Top Customers by Total Spending</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Total Spent ($)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var buyer in Model.TopBuyers)
+        {
+            <tr>
+                <td>@buyer.UserId</td>
+                <td>@buyer.Username</td>
+                <td>@buyer.Email</td>
+                <td>@buyer.TotalSpent.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

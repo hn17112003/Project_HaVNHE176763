@@ -1,0 +1,70 @@
+﻿@page
+@model FinalProject.Pages.View.EditUserModel
+@{
+}
+
+<h2>Edit User</h2>
+
+<form method="post" onsubmit="return showConfirmation()">
+    <input type="hidden" name="id" value="@Model.userEditId" />
+    <div>
+        <label asp-for="User.Username"></label>
+        <input asp-for="User.Username"  readonly/>
+        <span asp-validation-for="User.Username"></span>
+    </div>
+    <div>
+        <label asp-for="User.Email"></label>
+        <input asp-for="User.Email" readonly/>
+        <span asp-validation-for="User.Email"></span>
+    </div>
+    <div>
+        <label asp-for="User.Address"></label>
+        <input asp-for="User.Address" readonly/>
+        <span asp-validation-for="User.Address"></span>
+    </div>
+    <div>
+        <label asp-for="User.Phone"></label>
+        <input asp-for="User.Phone" readonly/>
+        <span asp-validation-for="User.Phone"></span>
+    </div>
+    <div>
+        <label asp-for="User.Role"></label><br/>
+        <select asp-for="User.Role" class="form-control">
+            @if (Model.User.Role == "admin")
+            {
+                <option value="user" disabled="true">User</option>
+                <option value="staff" disabled="true">Staff</option>
+                <option value="admin" >Admin</option>
+
+            }
+            else if (Model.User.Role == "staff")
+            {
+                <option value="user" disabled="true">User</option>
+                <option value="staff" >Staff</option>
+                <option value="admin" disabled="true">Admin</option>
+
+            }
+            else
+            {
+                <option value="user" >User</option>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+
+            }
+        </select>  
+        <span asp-validation-for="User.Role" class="text-danger"></span>
+    </div><br /><br />
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="ManageAccount" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function showConfirmation() {
+            return confirm("Are you sure you want to save changes?");
+        }
+    </script>
+}

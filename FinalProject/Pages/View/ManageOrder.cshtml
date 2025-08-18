@@ -1,0 +1,93 @@
+﻿@page
+@model FinalProject.Pages.View.ManageOrderModel
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+<div>
+    <label for="orderStatus">Status</label><br />
+    <select id="orderStatus" name="orderStatus" class="form-control" onchange="filterOrders()">
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+    </select>
+
+</div>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>OrderID</th>
+            <th>UserId</th>
+            <th>Phone</th>
+            <th>TotalAmount</th>
+            <th>Date</th>
+            <th>ShippingAddress</th>
+            <th>Payment</th>
+            <th>ShippingStatus</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <
+    <tbody>
+        @foreach (var o in Model.Orders)
+        {
+            var shippingClass = o.ShippingStatus?.ToLower() ?? "unknown";
+            <tr class="@shippingClass">
+                <td>@o.OrderId</td>
+                <td>@(o.User?.UserId ?? 0)</td>
+                <td>@(o.User?.Phone ?? "N/A")</td>
+                <td>@o.TotalAmount</td>
+                <td>@o.OrderDate</td>
+                <td>@o.ShippingAddress</td>
+                <td>@o.PaymentStatus</td>
+                <td>@o.ShippingStatus</td>
+                <td>
+                    @{
+                        var shipping = o.ShippingStatus?.ToLower();
+                        var payment = o.PaymentStatus?.ToLower();
+                    }
+
+                    @if (shipping == "cancelled")
+                    {
+                        <button class="btn btn-secondary" disabled>Cancelled</button>
+                    }
+                    else if (shipping == "delivered" && payment == "paid")
+                    {
+                        <button class="btn btn-success" disabled>Completed</button>
+                    }
+                    else
+                    {
+                        <a asp-page="EditOrder" asp-route-id="@o.OrderId" class="btn btn-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section Scripts {
+    <script>
+        function filterOrders() {
+            var selectedStatus = document.getElementById("orderStatus").value;
+            var rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                if (selectedStatus === "all") {
+                    row.style.display = "";
+                } else {
+                    if (row.classList.contains(selectedStatus)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,24 @@
+﻿@page
+@model TopSellersModel
+@{
+    ViewData["Title"] = "Top Sellers";
+}
+
+<h2>Top Sellers</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Staff Name</th>
+            <th>Total Sales</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var seller in Model.TopSellers)
+        {
+            <tr>
+                <td>@seller.StaffName</td>
+                <td>@seller.TotalSales.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>

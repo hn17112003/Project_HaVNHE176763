@@ -1,0 +1,51 @@
+﻿@page
+@model FinalProject.Pages.View.DeleteModel
+<form method="post" onsubmit="return showConfirmation()">
+	<input hidden asp-for="Product.ProductId" />
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3">Delete Category</h2>
+            <hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.Category.CategoryName"></label>
+			<input asp-for="Product.Category.CategoryName" disabled class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.ProductName"></label>
+			<input asp-for="Product.ProductName" disabled class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.Description"></label>
+			<input asp-for="Product.Description" disabled class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.Price"></label>
+			<input asp-for="Product.Price" disabled class="form-control" />
+	</div>
+	<div class="mb-3">
+			<label asp-for="Product.StockQuantity"></label>
+			<input asp-for="Product.StockQuantity" disabled class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Product.ImageUrl"></label>
+			<input asp-for="Product.ImageUrl" disabled class="form-control" />
+		</div>
+		<button type="submit" class="btn btn-danger" style="width:150px;">Delete</button>
+		<a asp-page="ManageProduct" class="btn btn-secondary" style="width:150px;"> Back to List</a>
+       
+	</div>
+	
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial"/>
+		<script>
+			function showConfirmation() {
+				return confirm("Are you sure you want to save changes?");
+			}
+		</script>
+	}
+
+}

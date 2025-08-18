@@ -1,0 +1,27 @@
+﻿@page
+@model FinalProject.Pages.View.ViewUserModel
+@{
+    ViewData["Title"] = "View Account";
+}
+
+<h2 class="text-center mb-4">Account Details</h2>
+
+<div class="card mx-auto" style="width: 50%; padding: 20px; margin-top: 20px;">
+    <div class="card-body">
+        <div class="mb-3">
+            <p><strong>UserName:</strong> @Model.User.Username</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Email:</strong> @Model.User.Email</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Address:</strong> @Model.User.Address</p>
+        </div>
+        <div class="mb-3">
+            <p><strong>Phone:</strong> @Model.User.Phone</p>
+        </div>
+        <div class="text-center mt-4">
+            <a asp-page="ManageUser" class="btn btn-primary">Edit Account</a>
+        </div>
+    </div>
+</div>

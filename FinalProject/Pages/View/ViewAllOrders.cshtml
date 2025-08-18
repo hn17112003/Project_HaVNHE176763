@@ -1,0 +1,35 @@
+﻿@page
+@model FinalProject.Pages.View.ViewAllOrdersModel
+@{
+    ViewData["Title"] = "All Orders - Admin View";
+}
+
+<h2 class="my-4">All Orders (Admin View)</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Staff Assigned</th>
+            <th>Total Amount</th>
+            <th>Date</th>
+            <th>Payment Status</th>
+            <th>Shipping Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@(order.User?.Username ?? "Unknown")</td>
+                <td>@(order.Staff?.Username ?? "<not assigned>")</td>
+                <td>@string.Format("{0:C}", order.TotalAmount)</td>
+                <td>@order.OrderDate?.ToString("yyyy-MM-dd")</td>
+                <td>@order.PaymentStatus</td>
+                <td>@order.ShippingStatus</td>
+            </tr>
+        }
+    </tbody>
+</table>

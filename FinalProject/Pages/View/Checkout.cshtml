@@ -1,0 +1,92 @@
+﻿@page
+@model FinalProject.Pages.View.CheckoutModel
+@{
+}
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Product Checkout</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+<!--================Checkout Area =================-->
+<section class="checkout_area section-margin--small">
+    <div class="container">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger text-center">
+                @TempData["ErrorMessage"] <a href="/View/ViewUser" class="font-weight-bold">Update here</a>
+            </div>
+        }
+
+        <div class="billing_details">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="order_box">
+                        <h2>Your Order</h2>
+                        <ul class="list">
+                            <!-- Header row with aligned columns -->
+                            <li class="order-header">
+                                <span class="header-column product-column">Product</span>
+                                <span class="header-column price-column">Price</span>
+                                <span class="header-column total-column">Total</span>
+                            </li>
+                            <!-- Cart items loop -->
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <li class="order-item">
+                                    <span class="product-column">
+                                        @item.Product.ProductName
+                                        <span class="quantity">x @item.Quantity</span>
+                                    </span>
+                                    <span class="price-column">@item.Product.Price</span>
+                                    <span class="total-column">@((item.Product.Price * item.Quantity) ?? 0)</span>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="list list_2">
+                            <li><a href="#">Total <span>@Model.Subtotal</span></a></li>
+                        </ul>
+                        <form method="post" asp-page-handler="ProceedToPaypal">
+                            <div class="text-center">
+                                <button type="submit" class="button button-paypal">Proceed</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .order-header, .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .header-column, .price-column, .total-column {
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .product-column {
+        flex: 2;
+        text-align: left;
+    }
+
+    .price-column, .total-column {
+        flex: 1;
+        text-align: right;
+    }
+
+    .quantity {
+        font-weight: bold;
+        margin-left: 5px;
+    }
+</style>

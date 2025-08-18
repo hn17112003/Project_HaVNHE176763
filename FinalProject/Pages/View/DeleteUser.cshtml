@@ -1,0 +1,23 @@
+﻿@page
+@model FinalProject.Pages.View.DeleteUserModel
+@{
+    ViewData["Title"] = "Xóa Tài Khoản Người Dùng";
+}
+
+<h1>Delete User</h1>
+
+<div>
+    <h3>Are you sure to delete this user?</h3>
+    <div>
+        <h4>@Model.User.Username</h4>
+        <p>Email: @Model.User.Email</p>
+        <p>Address: @Model.User.Address</p>
+        <p>Phone: @Model.User.Phone</p>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="User.UserId" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-page="ManageAccount" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

@@ -1,0 +1,38 @@
+﻿@page
+@model ManageAccountModel
+@{
+    ViewData["Title"] = "Manage Accounts";
+}
+
+<h2>Manage Accounts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Address</td>
+                <td>@user.Phone</td>
+                <td>@user.Role</td>
+                <td>
+                    <a asp-page="/View/EditUser" asp-route-id="@user.UserId" class="btn btn-primary">Sửa</a>
+                    <a asp-page="/View/DeleteUser" asp-route-id="@user.UserId" class="btn btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,101 @@
+﻿@page
+@model FinalProject.Pages.View.EditOrderModel
+<form method="post" onsubmit="return showConfirmation()">
+	<input hidden asp-for="Order.OrderId" />
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3">Edit Order</h2>
+			<hr />
+		</div>
+		<div asp-validation-summary="All"></div>
+		<div class="mb-3">
+			<label asp-for="Order.OrderId"></label>
+			<input asp-for="Order.OrderId" class="form-control" readonly />
+			<span asp-validation-for="Order.OrderId" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label>UserId</label>
+			<input value="@(Model.Order?.User.UserId)" class="form-control" readonly />
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Order.TotalAmount" ></label>
+			<input asp-for="Order.TotalAmount" class="form-control" readonly value="@Model.Order.TotalAmount?.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)" />
+			<span asp-validation-for="Order.TotalAmount" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Order.ShippingAddress" ></label>
+			<input asp-for="Order.ShippingAddress" class="form-control" readonly/>
+			<span asp-validation-for="Order.ShippingAddress" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Payment Status</label><br />
+			<select asp-for="Order.PaymentStatus" class="form-control">
+				@if (Model.Order.PaymentStatus == "paid")
+				{
+					<option value="unpaid">unpaid</option>
+					<option value="paid">Paid</option>
+				}
+				else
+				{
+					<option value="unpaid">Unpaid</option>
+					<option value="paid">Paid</option>
+				}
+			</select>
+			<span asp-validation-for="Order.PaymentStatus" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<br />
+			<br />
+			<label class="form-label">Shipping Status</label><br />
+			<select asp-for="Order.ShippingStatus" class="form-control">
+				@if (Model.Order.ShippingStatus == "processing")
+				{
+					<option value="pending" disabled="true">Pending</option>
+					<option value="processing">Processing</option>
+					<option value="shipped">Shipped</option>
+					<option value="delivered">Delivered</option>
+				}
+				else if (Model.Order.ShippingStatus == "shipped")
+				{
+					<option value="pending" disabled="true">Pending</option>
+					<option value="processing" disabled="true">Processing</option>
+					<option value="shipped">Shipped</option>
+					<option value="delivered">Delivered</option>
+				}
+				else if (Model.Order.ShippingStatus == "delivered")
+				{
+					<option value="pending" disabled="true">Pending</option>
+					<option value="processing" disabled="true">Processing</option>
+					<option value="shipped" disabled="true">Shipped</option>
+					<option value="delivered">Delivered</option>
+				}
+				else
+				{
+					<option value="pending">Pending</option>
+					<option value="processing">Processing</option>
+					<option value="shipped">Shipped</option>
+					<option value="delivered">Delivered</option>
+				}
+			</select>
+			<span asp-validation-for="Order.ShippingStatus" class="text-danger"></span>
+		</div>
+		<br /> <br />
+		<button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+		<a asp-page="ManageOrder" class="btn btn-secondary" style="width:150px;"> Back to List</a>
+
+	</div>
+
+</form>
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+		<script>
+			function showConfirmation() {
+				return confirm("Are you sure you want to save changes?");
+			}
+		</script>
+	}
+}

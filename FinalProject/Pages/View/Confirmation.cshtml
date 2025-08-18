@@ -1,0 +1,180 @@
+﻿@page
+@model FinalProject.Pages.View.ConfirmationModel
+@{
+}
+<section class="blog-banner-area py-5" id="category">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Cột trái: Tiêu đề -->
+            <div class="col-md-6 col-12 text-center text-md-left mb-4 mb-md-0">
+                <h1 class="display-4 font-weight-bold mb-0">Your Order</h1>
+            </div>
+
+            <!-- Cột phải: QR + thông tin bên cạnh -->
+            <div class="col-md-6 col-12 d-flex justify-content-center justify-content-md-end">
+                <div class="d-flex align-items-center">
+                    <!-- Ảnh QR phóng to -->
+                    <img src="~/img/payment-qr.jpg" alt="QR Code thanh toán" style="width: 200px; height: auto;" class="mr-3 border rounded shadow-sm" />
+
+                    <!-- Nội dung thanh toán -->
+                    <div style="font-size: 1rem; color: #333; min-width: 200px;">
+                        <p class="mb-2"><strong>STK:</strong> 9704229200156373994</p>
+                        <p class="mb-2"><strong>Tên:</strong> VU NAM HA</p>
+                        <p class="mb-0"><strong>Nội dung:</strong> PAY ORDER #123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Filter Section -->
+<section class="filter_section">
+    <div class="container">
+        <form method="get">
+            <br /><br /> 
+            <div class="form-group">
+                <label for="shippingStatusSelect">Filter by Shipping Status:</label><br />
+                <select id="shippingStatusSelect" name="SelectedShippingStatus" class="form-control" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    <option value="pending" selected="@(Model.SelectedShippingStatus == "pending" ? "selected" : null)">Pending</option>
+                    <option value="processing" selected="@(Model.SelectedShippingStatus == "processing" ? "selected" : null)">Processing</option>
+                    <option value="shipped" selected="@(Model.SelectedShippingStatus == "shipped" ? "selected" : null)">Shipped</option>
+                    <option value="delivered" selected="@(Model.SelectedShippingStatus == "delivered" ? "selected" : null)">Delivered</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</section>
+
+<p class="text-center">
+    <strong>Pending Orders:</strong> @Model.PendingOrderCount |
+    <strong>Delivered Orders:</strong> @Model.DeliveredOrderCount
+</p>
+
+<!-- Order Details Section -->
+<section class="order_details section-margin--small">
+    <div class="container">
+        <p class="text-center billing-alert">Thank you. Below are your order details.</p>
+
+        @foreach (var order in Model.Orders)
+        {
+            <div class="order_summary">
+                <h3>Order ID: @order.OrderId</h3>
+                <p>Order Date: @order.OrderDate?.ToString("yyyy-MM-dd")</p>
+                @if (order.ShippingStatus == "pending")
+                {
+                    <form method="post">
+                        <input type="hidden" name="OrderId" value="@order.OrderId" />
+                        <button type="submit" class="btn btn-danger">Cancel Order</button>
+                    </form>
+                }
+                else
+                {
+                    <p style="color: gray;">This order cannot be canceled.</p>
+                }
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5>Payment Status: <span>@order.PaymentStatus</span></h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Shipping Status: <span>@order.ShippingStatus</span></h5>
+                    </div>
+                </div>
+
+                <!-- Order Details Table -->
+                <div class="order_details_table">
+                    <h4>Order Details</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">TotalPrice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detail in order.OrderDetails)
+                                {
+                                    <tr>
+                                        <td><p>@(detail.Product?.ProductName ?? "Unknown Product")</p></td>
+                                        <td><h5>x @detail.Quantity</h5></td>
+                                        <td><p>@(detail.Price * detail.Quantity ?? 0)</p></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td><h4>Total</h4></td>
+                                    <td></td>
+                                    <td><h4>@order.TotalAmount</h4></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Return Button with Confirmation Modal -->
+                <div class="return-section">
+                    @{
+                        var status = (order.Status ?? "").ToLower();
+                    }
+                    @if (status == "return")
+                    {
+                        <button type="button" class="btn btn-warning" disabled="true">Returned</button>
+                    }
+                    else if (status == "completed")
+                    {
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#returnModal-@order.OrderId">
+                            Return order
+                        </button>
+                    }
+                    else if (status == "returnprocessing")
+                    {
+                        <button type="button" class="btn btn-warning" disabled="true">Return Processing</button>
+                    }
+
+
+                    <!-- Return Confirmation Modal -->
+                    <div class="modal fade" id="returnModal-@order.OrderId" tabindex="-1" role="dialog" aria-labelledby="returnModalLabel-@order.OrderId" aria-hidden="true" style="z-index: 1050; position: fixed;">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="z-index: 1051;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="returnModalLabel-@order.OrderId">Confirm Return</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to return this order?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <form method="post">
+                                        <input type="hidden" name="OrderId" value="@order.OrderId" />
+                                        <button type="submit" class="btn btn-danger">Confirm Return</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr /> <!-- Divider between orders -->
+            </div>
+        }
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        // Ensure modal functionality works
+        $('.modal').on('shown.bs.modal', function () {
+            $(this).find('[autofocus]').focus();
+        });
+    });
+</script>
+

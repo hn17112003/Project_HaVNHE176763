@@ -1,0 +1,76 @@
+﻿@page
+@model FinalProject.Pages.View.CartModel
+@{
+}
+<!--================ End Header Menu Area =================-->
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Shopping Cart</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="@item.Product.ImageUrl" alt="" width="100">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>@item.Product.ProductName</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>@string.Format("{0:C}", item.Product.Price)</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <input type="text" name="qty" maxlength="12" value="@item.Quantity" title="Quantity:" class="input-text qty" readonly>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>@string.Format("{0:C}", (item.Product.Price * item.Quantity).GetValueOrDefault())</h5>
+                                </td>
+                            </tr>
+                        }
+
+                        <!-- Subtotal row (displayed only once) -->
+                        <tr>
+                            <td colspan="3">
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5>@string.Format("{0:C}", Model.Subtotal)</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="checkout_btn_inner d-flex align-items-center">
+                    <a class="gray_btn" href="#">Continue Shopping</a>
+                    <a class="primary-btn ml-2" href="/View/Checkout">Proceed to checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
