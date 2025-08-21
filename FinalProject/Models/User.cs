@@ -23,6 +23,14 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
+    public virtual ICollection<GoodsIssue> GoodsIssues { get; set; } = new List<GoodsIssue>();
+
+    public virtual ICollection<GoodsReceipt> GoodsReceipts { get; set; } = new List<GoodsReceipt>();
+
+    public virtual ICollection<InventoryAdjustment> InventoryAdjustments { get; set; } = new List<InventoryAdjustment>();
+
+    public virtual ICollection<InventoryTransaction> InventoryTransactions { get; set; } = new List<InventoryTransaction>();
+
     public virtual ICollection<Order> OrderStaffs { get; set; } = new List<Order>();
 
     public virtual ICollection<Order> OrderUsers { get; set; } = new List<Order>();
