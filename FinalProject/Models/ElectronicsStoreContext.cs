@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -35,6 +35,14 @@ public partial class ElectronicsStoreContext : DbContext
     public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+
+    public virtual DbSet<Supplier> Suppliers { get; set; }
+
+    public virtual DbSet<GoodsReceipt> GoodsReceipts { get; set; }
+
+    public virtual DbSet<GoodsReceiptItem> GoodsReceiptItems { get; set; }
 
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -303,6 +311,114 @@ public partial class ElectronicsStoreContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("username");
+        });
+
+        modelBuilder.Entity<InventoryTransaction>(entity =>
+        {
+            entity.HasKey(e => e.TransactionId).HasName("PK__Inventory__85C600AF");
+
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.TransactionType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("transaction_type");
+            entity.Property(e => e.QuantityChange).HasColumnName("quantity_change");
+            entity.Property(e => e.TransactionDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("transaction_date");
+            entity.Property(e => e.ReferenceId).HasColumnName("reference_id");
+            entity.Property(e => e.Notes)
+                .HasColumnType("text")
+                .HasColumnName("notes");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.InventoryTransactions)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_InventoryTransactions_Products");
+
+            entity.HasOne(d => d.User).WithMany(p => p.InventoryTransactions)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_InventoryTransactions_Users");
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.HasKey(e => e.SupplierId).HasName("PK__Supplier__6EE594E8");
+
+            entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
+            entity.Property(e => e.SupplierName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("supplier_name");
+            entity.Property(e => e.ContactPerson)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("contact_person");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Address)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("address");
+        });
+
+        modelBuilder.Entity<GoodsReceipt>(entity =>
+        {
+            entity.HasKey(e => e.ReceiptId).HasName("PK__GoodsReceipts__6EE594E8");
+
+            entity.Property(e => e.ReceiptId).HasColumnName("receipt_id");
+            entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
+            entity.Property(e => e.ReceiptDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("receipt_date");
+            entity.Property(e => e.TotalAmount)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("total_amount");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("Nháp")
+                .HasColumnName("status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Supplier).WithMany(p => p.GoodsReceipts)
+                .HasForeignKey(d => d.SupplierId)
+                .HasConstraintName("FK_GoodsReceipts_Suppliers");
+
+            entity.HasOne(d => d.User).WithMany(p => p.GoodsReceipts)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_GoodsReceipts_Users");
+        });
+
+        modelBuilder.Entity<GoodsReceiptItem>(entity =>
+        {
+            entity.HasKey(e => e.ReceiptItemId).HasName("PK__GoodsReceiptItems__6EE594E8");
+
+            entity.Property(e => e.ReceiptItemId).HasColumnName("receipt_item_id");
+            entity.Property(e => e.ReceiptId).HasColumnName("receipt_id");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.UnitPrice)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("unit_price");
+
+            entity.HasOne(d => d.GoodsReceipt).WithMany(p => p.GoodsReceiptItems)
+                .HasForeignKey(d => d.ReceiptId)
+                .HasConstraintName("FK_GoodsReceiptItems_GoodsReceipts");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.GoodsReceiptItems)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("FK_GoodsReceiptItems_Products");
         });
 
         OnModelCreatingPartial(modelBuilder);
