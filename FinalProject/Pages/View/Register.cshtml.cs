@@ -13,6 +13,8 @@ namespace FinalProject.Pages.View
         [BindProperty]
         public string Name { get; set; }
         public string Message { get; set; }
+
+        public string Phone { get; set; }
 		public IActionResult OnGet(string email, string name)
         {
             Email = email;
@@ -29,7 +31,8 @@ namespace FinalProject.Pages.View
         public IActionResult OnPost(User user, string confirmPassword)
         {
             if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Email) ||
-                string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(confirmPassword))
+                string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(confirmPassword) ||
+                string.IsNullOrWhiteSpace(user.Phone))
             {
                 Message = "All fields are required.";
                 return Page();
@@ -41,6 +44,12 @@ namespace FinalProject.Pages.View
                 return Page();
             }
 
+            if (!System.Text.RegularExpressions.Regex.IsMatch(user.Phone, @"^[0-9]{9,11}$"))
+            {
+                Message = "Please enter a valid phone number (9-11 digits).";
+                return Page();
+            }
+
             if (user.Password != confirmPassword)
             {
                 Message = "Password and Confirm Password do not match.";
@@ -48,7 +57,7 @@ namespace FinalProject.Pages.View
             }
 
             var existingUser = ElectronicsStoreContext.Ins.Users
-                .FirstOrDefault(u => u.Username == user.Username || u.Email == user.Email);
+                .FirstOrDefault(u => u.Username == user.Username || u.Email == user.Email || u.Phone == user.Phone);
 
             if (existingUser != null)
             {

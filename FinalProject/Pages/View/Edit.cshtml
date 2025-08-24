@@ -4,14 +4,17 @@
 	<input hidden asp-for="Product.ProductId" />
 	<div class="border p-3 mt-4">
 		<div class="row pb-2">
-			<h2 class="text-primary pl-3">Edit Category</h2>
+			<h2 class="text-primary pl-3">Edit Product</h2>
             <hr />
 		</div>
 		<div asp-validation-summary="All"></div>
-		<div class="mb-3">
-			<label asp-for="Product.Category.CategoryName"></label>
-			<input asp-for="Product.Category.CategoryName" class="form-control" />
-			<span asp-validation-for="Product.Category.CategoryName" class="text-danger"></span>
+		<div class="mb-3 d-flex flex-column" >
+			<label asp-for="Product.CategoryId" class="form-label">Category</label>
+			<select asp-for="Product.CategoryId" class="form-select"
+					asp-items="@(new SelectList(Model.Category, "CategoryId", "CategoryName", Model.Product.CategoryId))">
+				<option value="">-- Select Category --</option>
+			</select>
+			<span asp-validation-for="Product.CategoryId" class="text-danger"></span>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Product.ProductName"></label>
