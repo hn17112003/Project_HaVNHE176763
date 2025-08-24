@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -84,11 +84,29 @@
                             }
                             else if (role.Equals("admin"))
                             {
-                                <li class="nav-item"><a class="nav-link" href="~/View/ViewAllOrders">View All Orders</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/View/ManageAccount">Manage Account</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/View/TopBuyers">Top Buyers</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/View/BestSellingProducts">Best-Selling Products</a></li>
-                                <li class="nav-item"><a class="nav-link" href="~/View/TopSellers">Top Sellers</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><h6 class="dropdown-header">User & System Management</h6></li>
+                                        <li><a class="dropdown-item" href="/View/ManageUsers"><i class="fas fa-users"></i> Manage Users</a></li>
+                                        
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><h6 class="dropdown-header">Product Management</h6></li>
+                                        <li><a class="dropdown-item" href="/View/ManageCategories"><i class="fas fa-tags"></i> Manage Categories</a></li>
+                                        <li><a class="dropdown-item" href="/View/ManageProducts"><i class="fas fa-box"></i> Manage Products</a></li>
+                                        
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><h6 class="dropdown-header">Order Management</h6></li>
+                                        <li><a class="dropdown-item" href="/View/ManageOrders"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
+                                        
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><h6 class="dropdown-header">Inventory & Suppliers</h6></li>
+                                        <li><a class="dropdown-item" href="/View/InventoryTransactions"><i class="fas fa-warehouse"></i> Inventory Transactions</a></li>
+                                        <li><a class="dropdown-item" href="/View/ManageSuppliers"><i class="fas fa-truck"></i> Manage Suppliers</a></li>
+                                    </ul>
+                                </li>
                             }
                             else if (role.Equals("staff"))
                             {
