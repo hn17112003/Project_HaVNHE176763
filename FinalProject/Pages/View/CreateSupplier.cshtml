@@ -1,0 +1,81 @@
+@page
+@model FinalProject.Pages.View.CreateSupplierModel
+@{
+    ViewData["Title"] = "Create Supplier";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Create New Supplier</h3>
+                    <a href="/View/ManageSuppliers" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Suppliers
+                    </a>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Basic Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Supplier.SupplierName" class="form-label">Supplier Name *</label>
+                                    <input asp-for="Supplier.SupplierName" class="form-control" required />
+                                    <span asp-validation-for="Supplier.SupplierName" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Supplier.ContactPerson" class="form-label">Contact Person</label>
+                                    <input asp-for="Supplier.ContactPerson" class="form-control" />
+                                    <span asp-validation-for="Supplier.ContactPerson" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Supplier.Email" class="form-label">Email</label>
+                                    <input asp-for="Supplier.Email" type="email" class="form-control" />
+                                    <span asp-validation-for="Supplier.Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Supplier.Phone" class="form-label">Phone</label>
+                                    <input asp-for="Supplier.Phone" class="form-control" />
+                                    <span asp-validation-for="Supplier.Phone" class="text-danger"></span>
+                                </div>
+
+                            </div>
+
+                            <!-- Address Information -->
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Address Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Supplier.Address" class="form-label">Address</label>
+                                    <textarea asp-for="Supplier.Address" class="form-control" rows="5"></textarea>
+                                    <span asp-validation-for="Supplier.Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="/View/ManageSuppliers" class="btn btn-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Create Supplier
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

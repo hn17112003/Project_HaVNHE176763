@@ -1,0 +1,117 @@
+@page
+@model FinalProject.Pages.View.DeleteSupplierModel
+@{
+    ViewData["Title"] = "Delete Supplier";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Delete Supplier</h3>
+                    <a href="/View/ManageSuppliers" class="btn btn-light">
+                        <i class="fas fa-arrow-left"></i> Back to Suppliers
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle"></i> Warning!
+                        </h4>
+                        <p>Are you sure you want to delete this supplier? This action cannot be undone.</p>
+                        <hr>
+                        <p class="mb-0">
+                            <strong>Note:</strong> If this supplier has associated inventory transactions, 
+                            those records will remain but the supplier reference will be removed.
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <!-- Supplier Details -->
+                        <div class="col-md-8">
+                            <h5>Supplier Details</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td><strong>Supplier Name:</strong></td>
+                                    <td>@Model.Supplier.SupplierName</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contact Person:</strong></td>
+                                    <td>@(Model.Supplier.ContactPerson ?? "-")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>@(Model.Supplier.Email ?? "-")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phone:</strong></td>
+                                    <td>@(Model.Supplier.Phone ?? "-")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Address:</strong></td>
+                                    <td>@(Model.Supplier.Address ?? "-")</td>
+                                </tr>
+                            </table>
+
+                            @if (Model.GoodsReceiptCount > 0)
+                            {
+                                <div class="alert alert-danger mt-3">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Cannot Delete:</strong> This supplier has @Model.GoodsReceiptCount related goods receipt(s). 
+                                    You must remove or reassign these goods receipts before deleting this supplier.
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Impact Summary -->
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Impact Summary</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <strong>Goods Receipts:</strong> 
+                                            <span class="badge bg-info">@Model.GoodsReceiptCount</span>
+                                        </li>
+                                        @if (Model.GoodsReceiptCount > 0)
+                                        {
+                                            <li class="mt-2">
+                                                <small class="text-muted">
+                                                    Cannot delete supplier with existing goods receipts.
+                                                </small>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <form method="post" class="d-inline">
+                                <input type="hidden" asp-for="Supplier.SupplierId" />
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="/View/ManageSuppliers" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </a>
+                                    <a href="/View/ViewSupplier?id=@Model.Supplier.SupplierId" class="btn btn-info">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                    <button type="submit" class="btn btn-danger" 
+                                            onclick="return confirm('Are you absolutely sure you want to delete this supplier? This action cannot be undone.')">
+                                        <i class="fas fa-trash"></i> Delete Supplier
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
