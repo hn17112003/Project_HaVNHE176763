@@ -14,6 +14,8 @@ namespace FinalProject.Pages.View
 			_context = context;
 		}
 		public Product Product { get; set; }
+
+        public List<Category> Categories { get; set; } = new();
         public async Task<IActionResult> OnGetAsync(int id)
         {
             string role = HttpContext.Session.GetString("Role");
@@ -21,6 +23,7 @@ namespace FinalProject.Pages.View
             {
                 return RedirectToPage("/View/Login");
             }
+            Categories = await _context.Categories.ToListAsync();
             return Page();
         }
         public async Task<IActionResult> OnPost(Product Product)

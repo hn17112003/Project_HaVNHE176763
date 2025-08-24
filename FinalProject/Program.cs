@@ -1,6 +1,8 @@
 using FinalProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using OfficeOpenXml;
+using System.ComponentModel;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +56,10 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
+
+ExcelPackage.License.SetNonCommercialPersonal("Huund");
+
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
