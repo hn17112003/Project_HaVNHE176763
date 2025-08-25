@@ -6,7 +6,8 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:49675",
       "sslPort": 44310
-    }
+    },
+    "launchUrl": "View/Category"
   },
   "profiles": {
     "http": {
@@ -16,7 +17,8 @@
       "applicationUrl": "http://localhost:5271",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "launchUrl": "View/Category"
     },
     "https": {
       "commandName": "Project",
@@ -25,14 +27,16 @@
       "applicationUrl": "https://localhost:7089;http://localhost:5271",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "launchUrl": "View/Category"
     },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "launchUrl": "View/Category"
     }
   }
 }

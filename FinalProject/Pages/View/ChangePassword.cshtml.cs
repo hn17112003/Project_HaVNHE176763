@@ -1,4 +1,4 @@
-using FinalProject.Models;
+﻿using FinalProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -36,11 +36,28 @@ namespace FinalProject.Pages.View
             }
             return Page();
         }
-        public IActionResult OnPost(string newPassword, string email)
+        public IActionResult OnPost(string newPassword, string confirmPassword, string email)
         {
+            if (newPassword != confirmPassword)
+            {
+                Error = "Passwords do not match!";
+                Email = email; // giữ lại email để load lại form
+                return Page();
+            }
+
             User user = _context.Users.Where(x => x.Email.Equals(email)).FirstOrDefault();
-            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            if (user == null)
+            {
+                Error = "User not found!";
+                return Page();
+            }
+
+            user.Password = newPassword;
             _context.SaveChanges();
+            if (HttpContext.Session.GetString("UserId") != null)
+            {
+                return RedirectToPage("/View/Profile");
+            }
 
             return RedirectToPage("/View/Logout");
         }
