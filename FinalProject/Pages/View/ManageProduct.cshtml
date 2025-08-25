@@ -44,9 +44,9 @@
                 <td>@product.StockQuantity</td>
                 <td>Added by staff @product.UserId</td>
                 <td>
-                    <a asp-page="Edit" asp-route-id="@product.ProductId" class="btn btn-primary">Sửa</a>
-                    <a asp-page="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Xóa</a>
+                    <a asp-page="ExportOrAdjustProduct" asp-route-id="@product.ProductId" class="btn btn-danger">Xuất / Điều chỉnh</a>
                 </td>
+
             </tr>
         }
 

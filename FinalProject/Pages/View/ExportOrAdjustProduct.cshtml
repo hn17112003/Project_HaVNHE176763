@@ -1,0 +1,45 @@
+﻿@page "{id:int}"
+@model FinalProject.Pages.View.ExportOrAdjustProductModel
+@{
+    ViewData["Title"] = "Xuất kho / Điều chỉnh kho";
+}
+
+<h2>@Model.Product?.ProductName</h2>
+<p>Tồn kho hiện tại: <strong>@Model.Product?.StockQuantity</strong></p>
+
+<hr />
+
+<h3>Xuất kho</h3>
+<form method="post" asp-page-handler="Export">
+    <input type="hidden" asp-for="ProductId" />
+
+    <div class="form-group">
+        <label for="Quantity">Số lượng cần xuất:</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Notes">Lý do xuất:</label>
+        <input asp-for="Notes" class="form-control" />
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-danger mt-2">Xuất kho</button>
+</form>
+
+
+<hr />
+
+<h3>Điều chỉnh kho</h3>
+<form method="post" asp-page-handler="Adjust">
+    <input type="hidden" name="ProductId" value="@Model.Product?.ProductId" />
+    <div class="form-group">
+        <label>Số lượng tồn thực tế:</label>
+        <input asp-for="NewQuantity" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Điều chỉnh</button>
+</form>
+
+<hr />
+<a asp-page="ManageProduct" class="btn btn-secondary">Quay lại</a>

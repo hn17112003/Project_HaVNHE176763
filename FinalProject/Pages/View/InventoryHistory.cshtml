@@ -1,0 +1,57 @@
+﻿@page
+@model FinalProject.Pages.View.InventoryHistoryModel
+@{
+    ViewData["Title"] = "Lịch sử xuất / điều chỉnh kho";
+}
+
+<h2 class="text-primary">Lịch sử xuất / điều chỉnh kho</h2>
+
+<form method="get" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <input type="text" name="searchProduct" value="@Model.SearchProduct" placeholder="Tên sản phẩm" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <select name="transactionType" class="form-select">
+            <option value="">-- Tất cả loại --</option>
+            <option value="Export" selected="@(Model.TransactionType=="Export")">Xuất kho</option>
+            <option value="Adjustment" selected="@(Model.TransactionType=="Adjustment")">Điều chỉnh</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <input type="date" name="fromDate" value="@(Model.FromDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <input type="date" name="toDate" value="@(Model.ToDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Lọc</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã phiếu</th>
+            <th>Sản phẩm</th>
+            <th>Loại giao dịch</th>
+            <th>Số lượng</th>
+            <th>Người thực hiện</th>
+            <th>Ngày</th>
+            <th>Lý do</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Transactions)
+        {
+            <tr>
+                <td>@item.TransactionId</td>
+                <td>@item.Product.ProductName</td>
+                <td>@item.TransactionType</td>
+                <td>@item.QuantityChange</td>
+                <td>@item.User.Username</td>
+                <td>@item.TransactionDate?.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.Notes</td>
+            </tr>
+        }
+    </tbody>
+</table>
